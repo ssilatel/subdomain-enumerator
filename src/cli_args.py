@@ -32,6 +32,13 @@ class CLIArgumentsParser:
             "(defaults to 10)",
             default=10,
         )
+        self.parser.add_argument(
+            "-k",
+            "--virustotal-api-key",
+            type=str,
+            help="API key to use when calling the VirusTotal API "
+            "(default is set through an environment variable)",
+        )
 
         self.args = self.parser.parse_args(*args, **kwargs)
 

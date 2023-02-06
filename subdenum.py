@@ -11,6 +11,7 @@ class App:
             domains=self.cli_args.domain,
             output_file=self.cli_args.output,
             threads=self.cli_args.threads,
+            virustotal_api_key=self.cli_args.virustotal_api_key,
         )
         self.screen_output = ScreenOutput(self.subdomain_scanner)
         if self.cli_args.output:
