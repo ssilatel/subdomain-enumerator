@@ -4,12 +4,12 @@ from reconlib import CRTShAPI, HackerTargetAPI, VirusTotalAPI
 
 
 class SubdomainScanner:
-    def __init__(self, domains: Collection[str], output_file: str, threads: int, virustotal_api_key: str):
+    def __init__(self, domains: Collection[str], output_file: str, threads: int, virustotal_api_key: str = None):
         self.domains = domains
         self.output_file = output_file
         self.threads = threads
         self.observers = []
-        self.virustotal_api_key = None
+        self.virustotal_api_key = virustotal_api_key
 
     def attach(self, observer):
         self.observers.append(observer)
@@ -19,7 +19,7 @@ class SubdomainScanner:
             observer.update(result)
 
     def scan_url(self, domain) -> set[str]:
-        apis = CRTShAPI(), HackerTargetAPI(), (VirusTotalAPI(self.virustotal_api_key) if self.virustotal_api_key else VirusTotalAPI())
+        apis = CRTShAPI(), HackerTargetAPI(), (VirusTotalAPI(api_key=self.virustotal_api_key) if self.virustotal_api_key else VirusTotalAPI())
         return set().union(*(api.fetch_subdomains(target=domain) for api in apis))
 
     def scan(self):
