@@ -17,10 +17,13 @@ class Output(ABC):
 class ScreenOutput(Output):
     def __init__(self, subject):
         super().__init__(subject)
+        self.found_domains = []
 
     def update(self, domains) -> None:
         for domain in domains:
-            print(f"{domain}")
+            if domain not in self.found_domains:
+                self.found_domains.append(domain)
+                print(f"{domain}")
 
     def end_output(self) -> None:
         pass
@@ -31,10 +34,13 @@ class FileOutput(Output):
         super().__init__(subject)
         self.output_filepath = subject.output_file
         self.output_file = open(subject.output_file, mode="w", encoding="utf-8")
+        self.found_domains = []
 
     def update(self, domains) -> None:
         for domain in domains:
-            self.output_file.write(f"{domain}\n")
+            if domain not in self.found_domains:
+                self.found_domains.append(domain)
+                self.output_file.write(f"{domain}\n")
 
     def end_output(self) -> None:
         self.output_file.close()

@@ -32,7 +32,7 @@ class SubdomainScanner:
             observer.update(result)
 
     def scan_url(self, product) -> set[str]:
-        return set().union(product[1].fetch_subdomains(target=product[0]))
+        return product[1].fetch_subdomains(target=product[0])
 
     def scan(self):
         with ThreadPoolExecutor(max_workers=self.threads) as executor:
